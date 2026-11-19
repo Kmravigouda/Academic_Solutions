@@ -22,7 +22,7 @@ The project is prepared for a free Render web service backed by a free Neon Post
 
 1. Push this project to a GitHub repository you control.
 2. Create a free project in [Neon](https://console.neon.tech/). Copy its PostgreSQL JDBC URL, database username, and password.
-3. In [Render](https://dashboard.render.com/), create a **Blueprint** from that GitHub repository and approve the `render.yaml` service. When prompted, set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` from Neon. Use the JDBC URL that begins with `jdbc:postgresql://` and includes `?sslmode=require`.
+3. In [Render](https://dashboard.render.com/), create a **Blueprint** from that GitHub repository and approve the `render.yaml` service. When prompted, set `DB_URL` to Neon's Java JDBC URL, including its username, password, and `?sslmode=require` parameters. Keep this value in Render's secret environment setting; never commit it.
 4. After the Render service is live, open its **Settings → Custom Domains** and add `learnzy.org`. Render will also add `www.learnzy.org` and redirect it to the root domain.
 5. In Namecheap **Domain List → Manage → Advanced DNS**, remove existing `AAAA` records and conflicting root `A`/`www` records. Add an `A Record` with host `@` and value `216.24.57.1`, and a `CNAME Record` with host `www` and value `<your-render-service>.onrender.com`. Replace the CNAME value with the exact Render service hostname shown in its dashboard.
 6. Return to Render and verify the custom domain. Render provisions HTTPS after DNS propagates.
