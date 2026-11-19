@@ -16,18 +16,17 @@ Open [http://localhost:8080](http://localhost:8080). The H2 console is at [http:
 
 Locally, the database is file-backed H2 and remains in the project directory between restarts. The dashboard provides record creation and deletion for all modules; CGPA is calculated as a credit-weighted average of academic grade points, and semester average is calculated from entered semester assessment scores.
 
-## Free hosting: Render + Neon + Namecheap
+## Free hosting: Render + Namecheap
 
-The project is prepared for a free Render web service backed by a free Neon PostgreSQL database. H2 remains the local development database; the `render` Spring profile uses PostgreSQL so data survives Render's free service restarts and deploys. Free services can sleep when idle, and Neon free-tier quotas and policies apply. This setup is for demos, not production student records.
+The project is prepared for a free Render web service using the built-in H2 database. The `render` Spring profile uses a local H2 file, but Render Free has an ephemeral filesystem: records can be lost whenever the service restarts, redeploys, or spins down after inactivity. This setup is for demos only, not for retaining student records.
 
 1. Push this project to a GitHub repository you control.
-2. Create a free project in [Neon](https://console.neon.tech/). Copy its PostgreSQL JDBC URL, database username, and password.
-3. In [Render](https://dashboard.render.com/), create a **Blueprint** from that GitHub repository and approve the `render.yaml` service. When prompted, set `DB_URL` to Neon's Java JDBC URL, including its username, password, and `?sslmode=require` parameters. Keep this value in Render's secret environment setting; never commit it.
-4. After the Render service is live, open its **Settings → Custom Domains** and add `learnzy.org`. Render will also add `www.learnzy.org` and redirect it to the root domain.
-5. In Namecheap **Domain List → Manage → Advanced DNS**, remove existing `AAAA` records and conflicting root `A`/`www` records. Add an `A Record` with host `@` and value `216.24.57.1`, and a `CNAME Record` with host `www` and value `<your-render-service>.onrender.com`. Replace the CNAME value with the exact Render service hostname shown in its dashboard.
-6. Return to Render and verify the custom domain. Render provisions HTTPS after DNS propagates.
+2. In [Render](https://dashboard.render.com/), create a **Blueprint** from that GitHub repository and approve the free service in `render.yaml`. No database credentials are required.
+3. After the Render service is live, open its **Settings → Custom Domains** and add `learnzy.org`. Render will also add `www.learnzy.org` and redirect it to the root domain.
+4. In Namecheap **Domain List → Manage → Advanced DNS**, remove existing `AAAA` records and conflicting root `A`/`www` records. Add an `A Record` with host `@` and value `216.24.57.1`, and a `CNAME Record` with host `www` and value `<your-render-service>.onrender.com`. Replace the CNAME value with the exact Render service hostname shown in its dashboard.
+5. Return to Render and verify the custom domain. Render provisions HTTPS after DNS propagates.
 
-Render's free web service has an ephemeral filesystem and sleeps when idle, so the hosted database is deliberately external. The H2 console is disabled in the hosted `render` profile. Keep database credentials in Render's environment settings; do not commit them to this repository.
+The H2 console is disabled in the hosted `render` profile. The dashboard has no sign-in or role-based access control; do not enter real student data or leave real records publicly accessible.
 
 ## Modules
 

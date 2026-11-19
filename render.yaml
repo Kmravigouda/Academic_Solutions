@@ -10,5 +10,3 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: render
-      - key: DB_URL
-        sync: false
